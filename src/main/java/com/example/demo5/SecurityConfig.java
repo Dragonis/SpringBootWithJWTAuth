@@ -15,22 +15,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // Create a default account
-        auth.inMemoryAuthentication()
-                .withUser("a")
-                .password("a")
-                .roles("ADMIN");
-    }
-
-    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
 
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers(HttpMethod.POST, "/login").permitAll() //for token
-                .antMatchers(HttpMethod.GET, "/").permitAll() //for token
+                .antMatchers(HttpMethod.GET, "/").permitAll()
+                .antMatchers(HttpMethod.GET, "/token/generate/**").permitAll() //for token
+                .antMatchers(HttpMethod.GET, "/download/token/**").permitAll() //for token
                 .anyRequest().authenticated()
                 .and()
                 // We filter the api/login requests
@@ -39,7 +32,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 // And filter other requests to check the presence of JWT in header
                 .addFilterBefore(new JWTAuthenticationFilter(),
                         UsernamePasswordAuthenticationFilter.class);
+    }
 
-
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        // Create a default account
+        auth.inMemoryAuthentication()
+                .withUser("a")
+                .password("a")
+                .roles("ADMIN");
     }
 }
