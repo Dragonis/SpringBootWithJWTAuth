@@ -6,11 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.UnknownHostException;
-
 @RestController
 public class ApiController {
 
@@ -28,7 +23,7 @@ public class ApiController {
             @PathVariable("document_id") String document_id,
             @PathVariable("username") String username,
             @PathVariable("password") String password
-    ) throws UnknownHostException, UnsupportedEncodingException, MalformedURLException, URISyntaxException {
+    ){
 
         String url = "http://localhost/download/token/";
         String generatedToken = generateJWTKTokenService.generateToken(document_id,username,password);

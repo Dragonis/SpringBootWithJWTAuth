@@ -26,15 +26,14 @@ public class GenerateJWTKTokenService {
         long ttlMillis = liveTokenInSeconds * 1000; // how many seconds token has been available x secunds = x * 1000 (ms)
 
         JwtBuilder jwtBuilder = null;
-
         try {
             jwtBuilder = Jwts.builder()
-                    .setIssuedAt(Date.from(Instant.now()))
-                    .setExpiration(expiration)
-                    .claim("document_id", document_id)
-                    .claim("username", username)
-                    .claim("password", password)
-                    .signWith(SignatureAlgorithm.HS256, secretKey.getBytes("UTF-8"));
+                        .setIssuedAt(Date.from(Instant.now()))
+                        .setExpiration(expiration)
+                        .claim("document_id", document_id)
+                        .claim("username", username)
+                        .claim("password", password)
+                        .signWith(SignatureAlgorithm.HS256, secretKey.getBytes("UTF-8"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
